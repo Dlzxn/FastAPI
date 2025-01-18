@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e50914;
+        }
+
+        header {
+            background-color: #e50914;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .about {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .about h2 {
+            color: #e50914;
+        }
+
+        .skills, .releases {
+            margin-top: 40px;
+        }
+
+        .skills h2, .releases h2 {
+            color: #e50914;
+            text-align: center;
+        }
+
+        .skills-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .skills-list li {
+            background-color: #1e1e1e;
+            margin: 10px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .releases-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .releases-item {
+            background-color: #1e1e1e;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .releases-item a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        .releases-item a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #e50914;
+            color: white;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DlzxnDev Official</h1>
+        <nav>
+            <a href="#about">About Me</a>
+            <a href="#skills">Skills</a>
+            <a href="#releases">Releases</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section id="about" class="about">
+            <h2>About Me</h2>
+            <p>Hi, I'm Alex, an 18-year-old developer passionate about coding and learning. Currently, I'm a student at UNN Lobachevsky, diving into advanced programming concepts and creating amazing projects.</p>
+        </section>
+
+        <section id="skills" class="skills">
+            <h2>My Skills</h2>
+            <ul class="skills-list">
+                <li>Python</li>
+                <li>Django</li>
+                <li>GO</li>
+                <li>SQL</li>
+                <li>Redis</li>
+                <li>FastAPI</li>
+            </ul>
+        </section>
+
+        <section id="releases" class="releases">
+            <h2>Releases</h2>
+            <ul class="releases-list">
+                <li class="releases-item">
+                    <h3>UNN-lub</h3>
+                    <p>Десктопное приложение для ННГУ</p>
+                    <p><a href="https://github.com/Dlzxn/UNN-lub/releases" target="_blank">Repository Link</a></p>
+                    <p><a href="README.md" download>Download File</a></p>
+                </li>
+                <li class="releases-item">
+                    <h3>Ozon Parser</h3>
+                    <p>Программа для быстрого поиска товаров в OZON</p>
+                    <p><a href="https://github.com/Dlzxn/Ozon-parsing/releases/tag/OzonParsing" target="_blank">Repository Link</a></p>
+
+                </li>
+<!--                <li class="releases-item">-->
+<!--                    <h3>FastAPI Starter</h3>-->
+<!--                    <p>A boilerplate for building REST APIs quickly with FastAPI.</p>-->
+<!--                    <p><a href="https://github.com/Dlzxn/fastapi-starter" target="_blank">Repository Link</a></p>-->
+<!--                    <p><a href="/files/fastapi-starter.zip" download>Download File</a></p>-->
+<!--                </li>-->
+            </ul>
+        </section>
+    </div>
+
+    <footer id="contact">
+        <p>Contact me: <a href="https://t.me/illgettomorow" target="_blank">Telegram</a></p>
+        <p>&copy; 2025 Alex. All rights reserved.</p>
+    </footer>
+</body>
+</html>
