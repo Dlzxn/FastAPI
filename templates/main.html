@@ -180,7 +180,7 @@
     <script>
         async function loadNews() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/news');
+                const response = await fetch('http://dlzxndev.ru/api/news');
                 const news = await response.json();
 
                 const newsList = document.querySelector('.news ul');
@@ -207,7 +207,7 @@
 
         async function loadProjects() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/projects');
+        const response = await fetch('http://dlzxndev.ru/api/projects');
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -264,13 +264,13 @@
     <div class="container">
         <div class="menu">
             <button class="toggle-button" onclick="toggleMenu()">☰</button>
-            <button onclick="location.href='http://127.0.0.1:8000'">About Me</button>
+            <button onclick="location.href='http://dlzxndev.ru/'">About Me</button>
             <button onclick="location.href='https://github.com/Dlzxn'">GitHub</button>
             <button onclick="location.href='https://t.me/illgettomorow'">Contact Me</button>
         </div>
         <div class="content">
             <h1>DlzxnDev</h1>
-            <p>Welcome to the personal website of Alex, an 18-year-old developer passionate about coding, innovation, and learning new technologies.</p>
+            <p>DlzxnDev welcomes you. The developer's news and projects are collected here.</p>
             <div class="news">
                 <h2>Latest News</h2>
                 <ul>
