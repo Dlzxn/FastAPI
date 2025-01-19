@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .menu {
+            background-color: #121212;
+            width: 60px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            transition: width 0.3s ease;
+        }
+
+        .menu.open {
+            width: 200px;
+        }
+
+        .menu button {
+            background: none;
+            border: none;
+            color: #f4f4f9;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            padding: 10px 15px;
+            display: none;
+        }
+
+        .menu.open button {
+            display: block;
+        }
+
+        .menu .toggle-button {
+            display: block;
+            background: none;
+            border: none;
+            color: #f4f4f9;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .menu button:hover {
+            background-color: #e50914;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #121212;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            transition: margin-left 0.3s ease;
+        }
+
+        .menu.open ~ .container {
+            margin-left: 200px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #e50914;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1a1a1a;
+            color: #f4f4f9;
+            font-size: 1rem;
+            outline: none;
+            border: 1px solid #333;
+        }
+
+        input:focus {
+            border-color: #e50914;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #e50914;
+            color: #f4f4f9;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #d40813;
+        }
+
+        .error {
+            color: #e50914;
+            font-size: 0.9rem;
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open');
+        }
+    </script>
+</head>
+<body>
+    <div class="menu">
+        <button class="toggle-button" onclick="toggleMenu()">☰</button>
+        <button onclick="location.href='http://127.0.0.1:8000'">About Me</button>
+        <button onclick="location.href='https://github.com/Dlzxn'">GitHub</button>
+        <button onclick="location.href='https://t.me/illgettomorow'">Contact Me</button>
+    </div>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registration-form">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="error" id="error-message"></div>
+    </div>
+
+    <script>
+        document.getElementById("registration-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    fetch("http://127.0.0.1:8000/admin/registration", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            username: username,
+            password: password,
+            grant_type: "password"
+        }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Registration failed");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Received token:", data.access_token);  // Для отладки
+        localStorage.setItem("access_token", data.access_token);
+
+        // Открываем панель админа с токеном
+        window.location.href = `http://127.0.0.1:8000/admin/adm_panel?token=${data.access_token}`;
+    })
+    .catch(error => {
+        document.getElementById("error-message").textContent = error.message;
+    });
+});
+
+
+    </script>
+</body>
+</html>

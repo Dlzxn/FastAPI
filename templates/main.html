@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DlzxnDev</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #1a1a1a, #e50914);
+            color: #f4f4f9;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .menu {
+            background-color: #121212;
+            width: 60px;
+            transition: width 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu.open {
+            width: 200px;
+        }
+
+        .menu button {
+            background: none;
+            border: none;
+            color: #f4f4f9;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            padding: 10px 15px;
+            display: none;
+        }
+
+        .menu.open button {
+            display: block;
+        }
+
+        .menu .toggle-button {
+            display: block;
+            background: none;
+            border: none;
+            color: #f4f4f9;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .menu button:hover {
+            background-color: #e50914;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .content h1 {
+            font-size: 3rem;
+            margin: 0;
+            text-align: center;
+        }
+
+        .content p {
+            max-width: 800px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        .news {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .news h2 {
+            font-size: 2rem;
+            color: #e50914;
+            text-align: center;
+        }
+
+        .news ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .news li {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .news li:hover {
+            background-color: #e50914;
+        }
+
+        .news .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #f4f4f9;
+        }
+
+        .news .description {
+            font-size: 1rem;
+            color: #f4f4f9;
+        }
+
+        .projects {
+            background-color: #121212;
+            width: 300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .projects h2 {
+            color: #e50914;
+            font-size: 1.5rem;
+        }
+
+        .projects ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .projects li {
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .projects li:hover {
+            background-color: #e50914;
+        }
+
+        .projects .title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f4f4f9;
+            margin-bottom: 5px;
+        }
+
+        .projects .description {
+            font-size: 0.9rem;
+            color: #f4f4f9;
+        }
+
+        @media (max-width: 768px) {
+            .projects {
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        async function loadNews() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/news');
+                const news = await response.json();
+
+                const newsList = document.querySelector('.news ul');
+                newsList.innerHTML = ''; // Очистить текущий список
+
+                news.forEach(item => {
+                    const li = document.createElement('li');
+                    const title = document.createElement('div');
+                    title.className = 'title';
+                    title.textContent = item.title;
+
+                    const description = document.createElement('div');
+                    description.className = 'description';
+                    description.textContent = item.descriptions;
+
+                    li.appendChild(title);
+                    li.appendChild(description);
+                    newsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error loading news:', error);
+            }
+        }
+
+        async function loadProjects() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/projects');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const projects = await response.json();
+        console.log("Received projects:", projects); // Лог для проверки данных
+
+        const projectsList = document.querySelector('.projects ul');
+        projectsList.innerHTML = ''; // Очистить текущий список
+
+        projects.forEach(item => {
+            const li = document.createElement('li');
+            const title = document.createElement('div');
+            title.className = 'title';
+            title.textContent = item.title || "No Title";  // Проверка данных
+
+            const description = document.createElement('div');
+            description.className = 'description';
+            description.textContent = item.descriptions || "No Description";  // Проверка данных
+
+            // Ссылка на страницу проекта с параметром ID
+            const link = document.createElement('a');
+            link.href = `/projects/${item.id}`; // Переход на динамическую страницу
+            link.textContent = 'View Details';
+            link.style.color = '#e50914';
+            link.style.textDecoration = 'none';
+
+            li.appendChild(title);
+            li.appendChild(description);
+            li.appendChild(link);
+            projectsList.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error('Error loading projects:', error);
+    }
+}
+
+
+
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNews();
+            loadProjects();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <button class="toggle-button" onclick="toggleMenu()">☰</button>
+            <button onclick="location.href='http://127.0.0.1:8000'">About Me</button>
+            <button onclick="location.href='https://github.com/Dlzxn'">GitHub</button>
+            <button onclick="location.href='https://t.me/illgettomorow'">Contact Me</button>
+        </div>
+        <div class="content">
+            <h1>DlzxnDev</h1>
+            <p>Welcome to the personal website of Alex, an 18-year-old developer passionate about coding, innovation, and learning new technologies.</p>
+            <div class="news">
+                <h2>Latest News</h2>
+                <ul>
+                    <li>Loading news...</li>
+                </ul>
+            </div>
+        </div>
+        <div class="projects">
+            <h2>Projects</h2>
+            <ul>
+                <li>Loading projects...</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

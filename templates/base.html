@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DlzxnDev{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #f4f4f9;
+            display: flex;
+            height: 100vh;
+        }
+
+        .menu {
+            background-color: #121212;
+            width: 60px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            transition: width 0.3s ease;
+        }
+
+        .menu.open {
+            width: 200px;
+        }
+
+        .menu button {
+            background: none;
+            border: none;
+            color: #f4f4f9;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            padding: 10px 15px;
+            display: none;
+        }
+
+        .menu.open button {
+            display: block;
+        }
+
+        .menu .toggle-button {
+            display: block;
+            background: none;
+            border: none;
+            color: #f4f4f9;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .menu button:hover {
+            background-color: #e50914;
+        }
+
+        .container {
+            margin-left: 60px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+        }
+
+        .menu.open + .container {
+            margin-left: 200px;
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open');
+        }
+    </script>
+</head>
+<body>
+    <div class="menu">
+        <button class="toggle-button" onclick="toggleMenu()">☰</button>
+        <button onclick="location.href='http://127.0.0.1:8000'">About Me</button>
+        <button onclick="location.href='https://github.com/Dlzxn'">GitHub</button>
+        <button onclick="location.href='https://t.me/illgettomorow'">Contact Me</button>
+    </div>
+    <div class="container">
+        {% block content %}
+        <!-- Уникальный контент страницы -->
+        {% endblock %}
+    </div>
+</body>
+</html>

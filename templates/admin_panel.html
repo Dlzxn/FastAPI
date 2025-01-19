@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Admin Panel</h1>
+
+        <h2>Projects</h2>
+        <form id="projectForm">
+            <input type="text" placeholder="Title" id="title" class="form-control mb-2" required>
+            <input type="text" placeholder="Description" id="description" class="form-control mb-2" required>
+            <input type="text" placeholder="Link" id="link" class="form-control mb-2" required>
+            <input type="text" placeholder="Download Link" id="download" class="form-control mb-2" required>
+            <button type="submit" class="btn btn-primary">Add Project</button>
+        </form>
+
+        <h2 class="mt-4">News</h2>
+        <form id="newsForm">
+            <input type="text" placeholder="Title" id="news_title" class="form-control mb-2" required>
+            <input type="text" placeholder="Description" id="news_description" class="form-control mb-2" required>
+            <input type="text" placeholder="Link" id="news_link" class="form-control mb-2" required>
+            <button type="submit" class="btn btn-primary">Add News</button>
+        </form>
+
+        <h2 class="mt-4">Manage Data</h2>
+        <button onclick="fetchProjects()" class="btn btn-info">Load Projects</button>
+        <button onclick="fetchNews()" class="btn btn-warning">Load News</button>
+
+        <div id="output" class="mt-4"></div>
+    </div>
+
+    <script>
+        // Получаем токен из локального хранилища
+        function getAuthToken() {
+            return localStorage.getItem("access_token") || "";
+        }
+
+        // Форма для добавления проекта
+        document.getElementById("projectForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const link = document.getElementById('link').value;
+            const download = document.getElementById('download').value;
+
+            try {
+                const response = await fetch('/admin/projects', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getAuthToken()
+                    },
+                    body: JSON.stringify({ title, description, link, download })
+                });
+
+                if (!response.ok) throw new Error("Failed to add project");
+
+                alert('Project added successfully!');
+                document.getElementById("projectForm").reset();
+                fetchProjects(); // Автообновление списка проектов
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        });
+
+        // Форма для добавления новости
+        document.getElementById("newsForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const title = document.getElementById('news_title').value;
+            const description = document.getElementById('news_description').value;
+            const link = document.getElementById('news_link').value;
+
+            try {
+                const response = await fetch('/admin/news', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getAuthToken()
+                    },
+                    body: JSON.stringify({ title, description, link })
+                });
+
+                if (!response.ok) throw new Error("Failed to add news");
+
+                alert('News added successfully!');
+                document.getElementById("newsForm").reset();
+                fetchNews();
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        });
+
+        // Загрузка проектов
+        async function fetchProjects() {
+            try {
+                let response = await fetch('/admin/projects', {
+                    headers: { 'Authorization': 'Bearer ' + getAuthToken() }
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch projects");
+
+                let projects = await response.json();
+                let output = `<h3>Projects</h3><ul class="list-group">`;
+                projects.forEach(proj => {
+                    output += `
+                        <li class="list-group-item bg-secondary text-white">
+                            <strong>${proj.title}</strong>: ${proj.description}
+                            <a href="${proj.link}" target="_blank" class="btn btn-sm btn-light ms-2">Visit</a>
+                            <a href="${proj.download}" download class="btn btn-sm btn-success ms-2">Download</a>
+                        </li>`;
+                });
+                output += `</ul>`;
+                document.getElementById('output').innerHTML = output;
+            } catch (error) {
+                document.getElementById('output').innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+            }
+        }
+
+        // Загрузка новостей
+        async function fetchNews() {
+            try {
+                let response = await fetch('/admin/news', {
+                    headers: { 'Authorization': 'Bearer ' + getAuthToken() }
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch news");
+
+                let news = await response.json();
+                let output = `<h3>News</h3><ul class="list-group">`;
+                news.forEach(n => {
+                    output += `
+                        <li class="list-group-item bg-secondary text-white">
+                            <strong>${n.title}</strong>: ${n.description}
+                            <a href="${n.link}" target="_blank" class="btn btn-sm btn-light ms-2">Read More</a>
+                        </li>`;
+                });
+                output += `</ul>`;
+                document.getElementById('output').innerHTML = output;
+            } catch (error) {
+                document.getElementById('output').innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+            }
+        }
+
+        // Проверка авторизации пользователя
+        async function checkAuth() {
+            if (!getAuthToken()) {
+                alert("You are not authorized. Please log in.");
+                window.location.href = "/admin/";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", checkAuth);
+    </script>
+</body>
+</html>
