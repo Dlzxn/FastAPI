@@ -3,287 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DlzxnDev</title>
+    <title>DlzxnDev | Next-Gen Coding</title>
     <link rel="icon" type="image/x-icon" href="/static/main.ico">
     <style>
+        :root {
+            --space-cadet: #2B2D42;
+            --lavender-web: #E4E1F6;
+            --heliotrope: #D56AA0;
+            --aquamarine: #7FFFD4;
+            --violet: #635BFF;
+            --deep-space: #0A0A12;
+            --neon-pink: #FF10F0;
+            --cyber-blue: #00F0FF;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(120deg, #1a1a1a, #e50914);
-            color: #f4f4f9;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(-45deg, var(--deep-space), #1a1a2e, #16213e);
+            background-size: 400% 400%;
+            animation: gradient-flow 15s ease infinite;
+            color: var(--lavender-web);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        .container {
-            display: flex;
+        .cyber-container {
+            display: grid;
+            grid-template-columns: 100px 1fr 350px;
             min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .menu {
-            background-color: #121212;
-            width: 60px;
-            transition: width 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             position: relative;
-            z-index: 2;
+            backdrop-filter: blur(20px);
         }
 
-        .menu.open {
-            width: 200px;
+        /* Стилизованное боковое меню */
+        .cyber-menu {
+            background: rgba(0, 0, 0, 0.8);
+            border-right: 2px solid var(--cyber-blue);
+            padding: 2rem 0;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
         }
 
-        .menu button {
-            background: none;
-            border: none;
-            color: #f4f4f9;
-            font-size: 1.2rem;
-            margin: 20px 0;
-            text-align: left;
-            width: 100%;
+        .menu-button {
+            width: 60px;
+            height: 60px;
+            margin: 20px auto;
+            border: 2px solid var(--cyber-blue);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.6);
             cursor: pointer;
-            padding: 10px 15px;
-            display: none;
-        }
-
-        .menu.open button {
-            display: block;
-        }
-
-        .menu .toggle-button {
-            display: block;
-            background: none;
-            border: none;
-            color: #f4f4f9;
-            font-size: 1.5rem;
-            margin: 20px 0;
-            cursor: pointer;
-        }
-
-        .menu button:hover {
-            background-color: #e50914;
-        }
-
-        .content {
-            flex: 1;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            position: relative;
         }
 
-        .content h1 {
-            font-size: 3rem;
-            margin: 0;
+        .menu-button:hover {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--violet);
+            box-shadow: 0 0 25px var(--cyber-blue);
+        }
+
+        /* Основной контент */
+        .main-content {
+            padding: 4rem 2rem;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .cyber-header {
             text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
         }
 
-        .content p {
+        .cyber-title {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--neon-pink), var(--cyber-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.05em;
+            margin: 1rem 0;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
+        }
+
+        /* Секция новостей */
+        .cyber-news {
             max-width: 800px;
-            text-align: center;
-            margin: 20px 0;
-            font-size: 1.2rem;
+            margin: 0 auto;
         }
 
-        .news {
-            margin-top: 30px;
-            width: 100%;
-            max-width: 1000px;
+        .news-item {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            margin: 2rem 0;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(var(--cyber-blue), 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        .news h2 {
-            font-size: 2rem;
-            color: #e50914;
-            text-align: center;
+        .news-item.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .news ul {
-            list-style-type: none;
-            padding: 0;
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
         }
 
-        .news li {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #1a1a1a;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        /* Боковая панель проектов */
+        .cyber-projects {
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 2px solid var(--cyber-blue);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
         }
 
-        .news li:hover {
-            background-color: #e50914;
+        .project-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(20px);
         }
 
-        .news .title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #f4f4f9;
+        .project-item.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .news .description {
-            font-size: 1rem;
-            color: #f4f4f9;
+        .project-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
         }
 
-        .projects {
-            background-color: #121212;
-            width: 300px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .cyber-container {
+                grid-template-columns: 80px 1fr;
+            }
 
-        .projects h2 {
-            color: #e50914;
-            font-size: 1.5rem;
-        }
-
-        .projects ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .projects li {
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #1a1a1a;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
-        .projects li:hover {
-            background-color: #e50914;
-        }
-
-        .projects .title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #f4f4f9;
-            margin-bottom: 5px;
-        }
-
-        .projects .description {
-            font-size: 0.9rem;
-            color: #f4f4f9;
-        }
-
-        @media (max-width: 768px) {
-            .projects {
+            .cyber-projects {
                 display: none;
             }
         }
+
+        @media (max-width: 768px) {
+            .cyber-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cyber-menu {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: auto;
+                display: flex;
+                justify-content: space-around;
+                padding: 1rem;
+                z-index: 1000;
+                border-right: none;
+                border-top: 2px solid var(--cyber-blue);
+            }
+
+            .menu-button {
+                width: 50px;
+                height: 50px;
+                margin: 0;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+                margin-bottom: 80px;
+            }
+
+            .cyber-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Плавное появление элементов */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyber-blue);
+            border-radius: 4px;
+        }
     </style>
+</head>
+<body>
+    <div class="cyber-container">
+        <nav class="cyber-menu">
+            <div class="menu-button" onclick="toggleMenu()">☰</div>
+            <div class="menu-button" onclick="location.href='/'">⌂</div>
+            <div class="menu-button" onclick="location.href='https://github.com/Dlzxn'"><img src="/image/github.png" alt="GitHub"></div>
+            <div class="menu-button" onclick="location.href='https://t.me/illgettomorow'"><img src="/image/telegram.png" alt="Telegram"></div>
+        </nav>
+
+        <main class="main-content">
+            <header class="cyber-header">
+                <h1 class="cyber-title">DlzxnDev</h1>
+                <p class="cyber-subtitle">// Pushing the boundaries of digital innovation</p>
+            </header>
+
+            <section class="cyber-news">
+                <h2 class="section-title">> Latest Updates</h2>
+                <div class="news-scroll-container">
+                    <ul class="news-list">
+                        <!-- News will be loaded here -->
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <aside class="cyber-projects">
+            <h2 class="section-title">> Active Projects</h2>
+            <div class="projects-list">
+                <!-- Projects will be loaded here -->
+            </div>
+        </aside>
+    </div>
+
     <script>
+        // Обновленный функционал с Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px'
+        };
+
+        const newsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        const projectsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
         async function loadNews() {
             try {
-                const response = await fetch('http://dlzxndev.ru/api/news');
+                const response = await fetch('/api/news');
                 const news = await response.json();
+                const container = document.querySelector('.news-list');
 
-                const newsList = document.querySelector('.news ul');
-                newsList.innerHTML = ''; // Очистить текущий список
+                news.forEach((item, index) => {
+                    const newsItem = document.createElement('li');
+                    newsItem.className = 'news-item';
+                    newsItem.innerHTML = `
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-description">${item.descriptions}</p>
+                        <div class="news-meta">${new Date(item.date).toLocaleDateString()}</div>
+                    `;
 
-                news.forEach(item => {
-                    const li = document.createElement('li');
-                    const title = document.createElement('div');
-                    title.className = 'title';
-                    title.textContent = item.title;
+                    newsObserver.observe(newsItem);
+                    container.appendChild(newsItem);
 
-                    const description = document.createElement('div');
-                    description.className = 'description';
-                    description.textContent = item.descriptions;
-
-                    li.appendChild(title);
-                    li.appendChild(description);
-                    newsList.appendChild(li);
+                    // Плавное появление с задержкой
+                    setTimeout(() => {
+                        newsItem.style.transitionDelay = `${index * 0.1}s`;
+                    }, 50);
                 });
+
+                if(news.length > 3) {
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
             } catch (error) {
                 console.error('Error loading news:', error);
             }
         }
 
         async function loadProjects() {
-    try {
-        const response = await fetch('http://dlzxndev.ru/api/projects');
+            try {
+                const response = await fetch('/api/projects');
+                const projects = await response.json();
+                const container = document.querySelector('.projects-list');
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+                projects.forEach((item, index) => {
+                    const project = document.createElement('div');
+                    project.className = 'project-item';
+                    project.innerHTML = `
+                        <h4 class="project-title">${item.title}</h4>
+                        <p class="project-description">${item.descriptions}</p>
+                        <a href="/projects/${item.id}" class="project-link">Explore →</a>
+                    `;
 
-        const projects = await response.json();
-        console.log("Received projects:", projects); // Лог для проверки данных
+                    projectsObserver.observe(project);
+                    container.appendChild(project);
 
-        const projectsList = document.querySelector('.projects ul');
-        projectsList.innerHTML = ''; // Очистить текущий список
-
-        projects.forEach(item => {
-            const li = document.createElement('li');
-            const title = document.createElement('div');
-            title.className = 'title';
-            title.textContent = item.title || "No Title";  // Проверка данных
-
-            const description = document.createElement('div');
-            description.className = 'description';
-            description.textContent = item.descriptions || "No Description";  // Проверка данных
-
-            // Ссылка на страницу проекта с параметром ID
-            const link = document.createElement('a');
-            link.href = `/projects/${item.id}`; // Переход на динамическую страницу
-            link.textContent = 'View Details';
-            link.style.color = '#e50914';
-            link.style.textDecoration = 'none';
-
-            li.appendChild(title);
-            li.appendChild(description);
-            li.appendChild(link);
-            projectsList.appendChild(li);
-        });
-
-    } catch (error) {
-        console.error('Error loading projects:', error);
-    }
-}
-
-
-
-        function toggleMenu() {
-            const menu = document.querySelector('.menu');
-            menu.classList.toggle('open');
+                    setTimeout(() => {
+                        project.style.transitionDelay = `${index * 0.15}s`;
+                    }, 50);
+                });
+            } catch (error) {
+                console.error('Error loading projects:', error);
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             loadNews();
             loadProjects();
         });
+
+        // Параллакс эффект
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            document.documentElement.style.setProperty('--parallax-x', `${x}px`);
+            document.documentElement.style.setProperty('--parallax-y', `${y}px`);
+        });
     </script>
-</head>
-<body>
-    <div class="container">
-        <div class="menu">
-            <button class="toggle-button" onclick="toggleMenu()">☰</button>
-            <button onclick="location.href='http://dlzxndev.ru/'">About Me</button>
-            <button onclick="location.href='https://github.com/Dlzxn'">GitHub</button>
-            <button onclick="location.href='https://t.me/illgettomorow'">Contact Me</button>
-        </div>
-        <div class="content">
-            <h1>DlzxnDev</h1>
-            <p>DlzxnDev welcomes you. The developer's news and projects are collected here.</p>
-            <div class="news">
-                <h2>Latest News</h2>
-                <ul>
-                    <li>Loading news...</li>
-                </ul>
-            </div>
-        </div>
-        <div class="projects">
-            <h2>Projects</h2>
-            <ul>
-                <li>Loading projects...</li>
-            </ul>
-        </div>
-    </div>
 </body>
 </html>

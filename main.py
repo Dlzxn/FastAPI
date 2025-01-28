@@ -18,3 +18,11 @@ app.include_router(adm_rout.admin_rout)
 @app.get("/")
 async def main():
     return FileResponse("templates/main.html")
+
+@app.get("/image/github.png")
+async def github():
+    return FileResponse("image/github.png")
+
+@app.get("/image/telegram.png")
+async def telegram():
+    return FileResponse("image/telegram.png")

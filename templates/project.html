@@ -5,143 +5,320 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ project.name }}</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
-            color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        :root {
+            --neon-pink: #FF10F0;
+            --cyber-blue: #00F0FF;
+            --space-cadet: #2B2D42;
+            --lavender-web: #E4E1F6;
+            --deep-space: #0A0A12;
+            --hologram-purple: #635BFF;
         }
 
-        .menu {
-            background-color: #121212;
-            width: 60px;
-            height: 100%;
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(-45deg, var(--deep-space), #1a1a2e, #16213e);
+            background-size: 400% 400%;
+            animation: gradient-flow 15s ease infinite;
+            color: var(--lavender-web);
+            min-height: 100vh;
+        }
+
+        /* Нейро-интерфейс меню */
+        .cyber-menu {
             position: fixed;
             top: 0;
             left: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            height: 100vh;
+            width: 80px;
+            background: rgba(0, 0, 0, 0.8);
+            border-right: 2px solid var(--cyber-blue);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
             overflow: hidden;
-            transition: width 0.3s ease;
         }
 
-        .menu.open {
-            width: 200px;
+        .cyber-menu.open {
+            width: 250px;
         }
 
-        .menu button {
-            background: none;
-            border: none;
-            color: #f4f4f9;
-            font-size: 1.2rem;
-            margin: 20px 0;
-            text-align: left;
-            width: 100%;
+        .menu-button {
+            width: 60px;
+            height: 60px;
+            margin: 20px auto;
+            border: 2px solid var(--cyber-blue);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.6);
             cursor: pointer;
-            padding: 10px 15px;
-            display: none;
-        }
-
-        .menu.open button {
-            display: block;
-        }
-
-        .menu .toggle-button {
-            display: block;
-            background: none;
-            border: none;
-            color: #f4f4f9;
-            font-size: 1.5rem;
-            margin: 20px 0;
-            cursor: pointer;
-        }
-
-        .menu button:hover {
-            background-color: #e50914;
-        }
-
-        .container {
-            max-width: 800px;
-            background-color: #121212;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            transition: margin-left 0.3s ease;
+            overflow: hidden;
         }
 
-        .menu.open ~ .container {
-            margin-left: 200px;
+        .menu-button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--neon-pink), var(--cyber-blue));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--cyber-blue);
+        }
+
+        .menu-button:hover::before {
+            opacity: 0.2;
+        }
+
+        .menu-text {
+            display: none;
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+
+        .cyber-menu.open .menu-text {
+            display: inline-block;
+        }
+
+        /* Голографический контейнер */
+        .cyber-container {
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(var(--cyber-blue), 0.3);
+            margin: 40px auto;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.1);
+        }
+
+        .cyber-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
         }
 
         h1 {
-            font-size: 2.5rem;
-            color: #e50914;
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, var(--neon-pink), var(--cyber-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 2rem;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
         }
 
-        p {
-            margin: 10px 0;
+        .cyber-label {
+            font-size: 1.1rem;
+            color: var(--cyber-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .cyber-info {
             font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 0 0 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid var(--hologram-purple);
         }
 
-        a {
-            color: #e50914;
+        .cyber-link {
+            color: var(--cyber-blue);
             text-decoration: none;
-            font-weight: bold;
+            position: relative;
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .cyber-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cyber-blue);
+            transition: width 0.3s ease;
         }
 
-        .label {
-            font-weight: bold;
+        .cyber-link:hover::after {
+            width: 100%;
         }
 
         .download-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #e50914;
-            color: #f4f4f9;
-            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-top: 2rem;
+            background: linear-gradient(45deg, var(--neon-pink), var(--hologram-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-decoration: none;
-            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 16, 240, 0.3);
         }
 
         .download-btn:hover {
-            background-color: #d40813;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 16, 240, 0.5);
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 1200px) {
+            .cyber-menu {
+                width: 70px;
+            }
+
+            .cyber-menu.open {
+                width: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cyber-menu {
+                width: 100%;
+                height: 70px;
+                border-right: none;
+                border-bottom: 2px solid var(--cyber-blue);
+            }
+
+            .cyber-menu.open {
+                height: 100vh;
+                width: 100%;
+            }
+
+            .cyber-container {
+                margin: 100px 20px 40px;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cyber-container {
+                margin: 80px 15px 30px;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        /* Анимации */
+        @keyframes hologram-pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyber-blue);
+            border-radius: 4px;
         }
     </style>
     <script>
         function toggleMenu() {
-            const menu = document.querySelector('.menu');
+            const menu = document.querySelector('.cyber-menu');
             menu.classList.toggle('open');
         }
+
+        document.addEventListener('click', (event) => {
+            const menu = document.querySelector('.cyber-menu');
+            if (!menu.contains(event.target) && menu.classList.contains('open')) {
+                menu.classList.remove('open');
+            }
+        });
+
+        // Параллакс эффект для контейнера
+        document.addEventListener('mousemove', (e) => {
+            const container = document.querySelector('.cyber-container');
+            const x = (e.clientX / window.innerWidth - 0.5) * 10;
+            const y = (e.clientY / window.innerHeight - 0.5) * 10;
+            container.style.transform = `perspective(1000px) rotateX(${y}deg) rotateY(${x}deg)`;
+        });
     </script>
 </head>
 <body>
-    <div class="menu">
-        <button class="toggle-button" onclick="toggleMenu()">☰</button>
-        <button onclick="location.href='http://dlzxndev.ru/'">About Me</button>
-        <button onclick="location.href='https://github.com/Dlzxn'">GitHub</button>
-        <button onclick="location.href='https://t.me/illgettomorow'">Contact Me</button>
-    </div>
-    <div class="container">
+    <nav class="cyber-menu">
+        <button class="menu-button" onclick="toggleMenu()">☰</button>
+        <button class="menu-button" onclick="location.href='/'">
+            ⌂
+            <span class="menu-text">Home</span>
+        </button>
+        <button class="menu-button" onclick="location.href='https://github.com/Dlzxn'">
+            <img src="/image/github.png" alt="GitHub" style="width: 24px;">
+            <span class="menu-text">GitHub</span>
+        </button>
+        <button class="menu-button" onclick="location.href='https://t.me/illgettomorow'">
+            <img src="/image/telegram.png" alt="Telegram" style="width: 24px;">
+            <span class="menu-text">Contact</span>
+        </button>
+    </nav>
+
+    <div class="cyber-container">
         <h1>{{ project.title }}</h1>
-        <p><span class="label">Description:</span> {{ project.descriptions }}</p>
-        <p><span class="label">Git Repository:</span>
-            <a href="{{ project.link }}" target="_blank">View on GitHub</a>
-        </p>
-        <p><span class="label">Open Source:</span> {{ "Yes" if project.open_source else "No" }}</p>
-        <a href="{{ project.download }}" class="download-btn" download>Download Project</a>
+
+        <div class="cyber-info">
+            <span class="cyber-label">Description</span>
+            <p>{{ project.descriptions }}</p>
+        </div>
+
+        <div class="cyber-info">
+            <span class="cyber-label">Repository</span>
+            <a href="{{ project.link }}" class="cyber-link" target="_blank">
+                View Source Code
+            </a>
+        </div>
+
+        <div class="cyber-info">
+            <span class="cyber-label">Status</span>
+            <p>{{ "Open Source" if project.open_source else "Private" }}</p>
+        </div>
+
+        <a href="{{ project.download }}" class="download-btn" download>
+            Download Project
+        </a>
     </div>
 </body>
 </html>
